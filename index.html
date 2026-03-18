@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luka Mihajlov | Tech Artist & 3D Generalist</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo">LUKA.M</div>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#pipeline">Pipeline</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-content">
+            <span class="eyebrow">Luka Mihajlov</span>
+            <h1>Bridging the gap between <span class="highlight">Art & Code.</span></h1>
+            <p>Medior 3D Generalist & Technical Artist with 10 years of experience building optimized pipelines and interactive 3D configurators.</p>
+            <div class="cta-group">
+                <a href="#work" class="btn">View Portfolio</a>
+                <a href="mailto:luka.mihajlov.biz@gmail.com" class="btn secondary">Contact Me</a>
+            </div>
+        </div>
+        <div class="overlay"></div>
+        <img src="assets/hero.webp" alt="Hero Render" class="hero-bg">
+    </section>
+
+    <section id="work">
+        <h2 class="section-title" style="text-align: center; margin-bottom: 3rem;">Featured Work</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="assets/Untitled.webp" alt="Three.js Furniture">
+                <div class="card-info">
+                    <h3>3D Furniture Configurator</h3>
+                    <p>Three.js / WebGL / Optimization</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="assets/Untitled2.webp" alt="Three.js Furniture">
+                <div class="card-info">
+                    <h3>3D Furniture Configurator</h3>
+                    <p>Three.js / WebGL / Optimization</p>
+                </div>
+            </div>
+            </div>
+
+            <div class="card">
+                <img src="assets/Untitled3.webp" alt="Three.js Furniture">
+                <div class="card-info">
+                    <h3>3D Furniture Configurator</h3>
+                    <p>Three.js / WebGL / Optimization</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="assets/Untitled4.webp" alt="Three.js Furniture">
+                <div class="card-info">
+                    <h3>3D Furniture Configurator</h3>
+                    <p>Three.js / WebGL / Optimization</p>
+                </div>
+            </div>
+    </section>
+
+<section id="pipeline">
+    <div class="pipeline-container">
+        <div class="pipeline-text">
+            <span class="eyebrow">Pipeline Optimization</span>
+            <h2>Automated Asset Bundling</h2>
+            <p>I developed a custom Blender Addon for my team to standardize naming conventions and automate the <strong>EXPORT/ORPHAN</strong> collection hierarchy. </p>
+            <ul class="impact-list">
+                <li><strong>Zero Manual Parenting:</strong> Script auto-detects asset types and parents them to logical "Empties" based on dynamic group data.</li>
+                <li><strong>Material Auto-Linking:</strong> Integrates with a central .blend library to automatically assign production-ready materials during the renaming phase.</li>
+                <li><strong>Workflow Speed:</strong> Introduced a custom Pie Menu system, reducing naming/organization time by approximately 60%.</li>
+            </ul>
+        </div>
+        
+        <div class="code-window">
+            <div class="code-header">
+                <div class="dots">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                </div>
+                <span class="file-name">collection_bundler.py</span>
+            </div>
+            <pre><code>
+def bundle_selected_objects():
+    selected_objs = [obj for obj in bpy.context.selected_objects if obj.type in {'MESH', 'CURVE'}]
+    
+    export_col = ensure_collection("EXPORT", color_tag='COLOR_04')
+    placeholder = ensure_empty("PLACEHOLDER")
+
+    for obj in selected_objs:
+        name = obj.name.lower()
+        
+        for group, subs in GROUPS.items():
+            if any(sub.lower() in name for sub in subs):
+                # Automated Hierarchy Logic
+                if group not in group_empties:
+                    group_empties[group] = ensure_empty(group)
+                    safe_link_to_collection(group_empties[group], export_col)
+                    group_empties[group].parent = placeholder
+                
+                safe_link_to_collection(obj, export_col)
+                obj.parent = group_empties[group]
+            </code></pre>
+        </div>
+    </div>
+</section>
+
+    <footer id="about">
+        <div class="footer-grid">
+            <div class="bio">
+                <h2>The Human Behind the Vertices</h2>
+                <p>6 years of freelance grit + 4 years of studio experience. I don't just make models; I build the systems that make them work. From custom Blender Python scripts to Three.js optimization, I ensure the creative vision survives the technical handoff.</p>
+            </div>
+            <div class="skills-category">
+                <h3>Technical Toolkit</h3>
+                <ul class="skill-tags">
+                    <li>Blender (General/Python/GeoNodes)</li>
+                    <li>Three.js Pipeline</li>
+                    <li>Godot (GDScript)</li>
+                    <li>Substance Suite</li>
+                    <li>GLTF Optimization</li>
+                    <li>Photoshop / Krita</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
