@@ -38,3 +38,20 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(card);
     });
 });
+
+// Highlight the active language link based on the URL
+const currentPath = window.location.pathname;
+if (currentPath.includes('sr.html')) {
+    document.getElementById('sr-link')?.classList.add('active');
+} else {
+    document.getElementById('en-link')?.classList.add('active');
+}
+
+// Optional: Auto-detect Serbian browser language on first visit
+if (!localStorage.getItem('lang_set')) {
+    const userLang = navigator.language || navigator.userLanguage;
+    if (userLang.startsWith('sr') && !currentPath.includes('sr.html')) {
+        localStorage.setItem('lang_set', 'true');
+        window.location.href = 'sr.html';
+    }
+}
