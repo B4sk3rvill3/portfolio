@@ -55,3 +55,18 @@ if (!localStorage.getItem('lang_set')) {
         window.location.href = 'sr.html';
     }
 }
+
+const contactBtn = document.getElementById('contact-btn');
+
+contactBtn.addEventListener('click', (e) => {
+    // We let the default mailto: happen, but we also copy the email
+    // just in case the mail app doesn't open.
+    const email = "luka.mihajlov.biz@gmail.com";
+    navigator.clipboard.writeText(email).then(() => {
+        const originalText = contactBtn.innerText;
+        contactBtn.innerText = "Email Copied!";
+        setTimeout(() => {
+            contactBtn.innerText = originalText;
+        }, 2000);
+    });
+});

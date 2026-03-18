@@ -342,4 +342,18 @@ nav ul a:hover {
   padding: 15px;
   white-space: pre-wrap;
   word-break: break-all;
+}
+
+.email-display {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+.email-display a {
+  color: #007aff;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.email-display a:hover {
+  border-bottom: 1px solid #007aff;
 }/*# sourceMappingURL=style.css.map */
