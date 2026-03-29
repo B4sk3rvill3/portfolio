@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+
+# Future-proofing
+node_modules/
+dist/
+.env
+
+# Additional files
+scripts_for_cv/
+*.png
+*.aseprite
+placeholder.jpg
+
+# SCSS source maps (generated)
+css/style.css.map

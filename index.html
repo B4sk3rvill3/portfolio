@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luka Mihajlov | Tech Artist & 3D Generalist</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo">LUKA.M</div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-menu">
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#work">Work</a></li>
+                <li><a href="#pipeline">Pipeline</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <div class="lang-switch">
+                <a href="#" class="lang-link" id="en-link" data-lang="en">EN</a>
+                <span>|</span>
+                <a href="#" class="lang-link" id="sr-link" data-lang="sr">SR</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="hero-content">
+            <span class="eyebrow">Luka Mihajlov</span>
+            <h1 data-i18n="hero.headline">Bridging the gap between <span class="highlight">Art & Code.</span></h1>
+            <p data-i18n="hero.desc">Medior 3D Generalist & Technical Artist with 4+ years of experience building optimized pipelines and interactive 3D configurators.</p>
+            <div class="cta-group">
+                <a href="#work" class="btn" data-i18n="hero.cta.portfolio">View Portfolio</a>
+                <a href="#mail" class="btn secondary" id="contact-btn" data-i18n="hero.cta.contact">Contact Me</a>
+            </div>
+        </div>
+        <div class="overlay"></div>
+        <!-- TODO: Replace with reel -->
+        <img src="assets/images/hero.webp" alt="3D render background" class="hero-bg">
+    </section>
+
+    <section id="work">
+        <h2 class="section-title" data-i18n="work.title">Featured Work</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="assets/images/Untitled.webp" alt="Interior environment render — living room with warm lighting" loading="lazy">
+                <div class="card-info">
+                    <h3>Interior Visualization</h3>
+                    <p>Environment Design / Lighting / Rendering</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="assets/images/Untitled2.webp" alt="Upholstered fabric chair render" loading="lazy">
+                <div class="card-info">
+                    <h3>Fabric Chair — Type A</h3>
+                    <p>3D Modeling / Cloth Simulation / Rendering</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="assets/images/Untitled3.webp" alt="Fabric chair variant render" loading="lazy">
+                <div class="card-info">
+                    <h3>Fabric Chair — Type B</h3>
+                    <p>3D Modeling / Cloth Simulation / Rendering</p>
+                </div>
+            </div>
+
+            <div class="card" data-model="assets/models/sofa.gltf">
+                <img src="assets/images/Untitled4.webp" alt="Sofa render — click to view interactive 3D model" loading="lazy">
+                <div class="card-info">
+                    <h3>Sofa Configurator</h3>
+                    <p>Three.js / WebGL / Interactive 3D</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section id="pipeline">
+    <div class="pipeline-container">
+        <div class="pipeline-text">
+            <span class="eyebrow" data-i18n="pipeline.eyebrow">Pipeline Optimization</span>
+            <h2 class="section-title" data-i18n="pipeline.title">Automated Asset Bundling</h2>
+            <p data-i18n="pipeline.desc">I developed a custom Blender Addon for my team to standardize naming conventions and automate the <strong>EXPORT/ORPHAN</strong> collection hierarchy.</p>
+            <ul class="impact-list">
+                <li data-i18n="pipeline.impact.1"><strong>Zero Manual Parenting:</strong> Script auto-detects asset types and parents them to logical "Empties" based on dynamic group data.</li>
+                <li data-i18n="pipeline.impact.2"><strong>Material Auto-Linking:</strong> Integrates with a central .blend library to automatically assign production-ready materials during the renaming phase.</li>
+                <li data-i18n="pipeline.impact.3"><strong>Workflow Speed:</strong> Introduced a custom Pie Menu system, reducing naming/organization time by approximately 60%.</li>
+                <li data-i18n="pipeline.impact.4"><strong>Parametric Generation:</strong> Companion script morphs 2 base meshes across 25 real-world dimensions, producing 275 asset variants without manual duplication.</li>
+            </ul>
+        </div>
+
+        <div class="code-window" lang="en">
+            <div class="code-tabs">
+                <button class="code-tab active" data-tab="bundler">collection_bundler.py</button>
+                <button class="code-tab" data-tab="modelgen">modelGen.py</button>
+            </div>
+            <div class="code-header">
+                <div class="dots">
+                    <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                </div>
+                <span class="file-name">collection_bundler.py</span>
+            </div>
+            <pre class="code-panel active" data-panel="bundler"><code>
+def bundle_selected_objects():
+    selected_objs = [obj for obj in bpy.context.selected_objects if obj.type in {'MESH', 'CURVE'}]
+
+    export_col = ensure_collection("EXPORT", color_tag='COLOR_04')
+    placeholder = ensure_empty("PLACEHOLDER")
+
+    for obj in selected_objs:
+        name = obj.name.lower()
+
+        for group, subs in GROUPS.items():
+            if any(sub.lower() in name for sub in subs):
+                # Automated Hierarchy Logic
+                if group not in group_empties:
+                    group_empties[group] = ensure_empty(group)
+                    safe_link_to_collection(group_empties[group], export_col)
+                    group_empties[group].parent = placeholder
+
+                safe_link_to_collection(obj, export_col)
+                obj.parent = group_empties[group]
+            </code></pre>
+            <pre class="code-panel" data-panel="modelgen"><code>
+for (y_dim, x_dim) in cubeDimensions:
+    # Map real-world dimensions (inches) to normalised 0–1 shape key values
+    width_key_value = ((x_dim / 2) - 18) / (48 - 18)
+    depth_key_value = (y_dim - 36) / (72 - 36)
+
+    left_obj_copy  = left_obj.copy()
+    right_obj_copy = right_obj.copy()
+    # Deep copy mesh data — prevents unintended object linking
+    left_obj_copy.data  = left_obj.data.copy()
+    right_obj_copy.data = right_obj.data.copy()
+
+    if left_obj_copy.data.shape_keys:
+        sk = left_obj_copy.data.shape_keys.key_blocks
+        sk["_TOP_B_(width)"].value = width_key_value
+        sk["_TOP_B_(depth)"].value = depth_key_value
+
+    left_obj_copy.name  = f"{collection_name}_TOP_B_base_LEFT_{y_dim}x{x_dim}"
+    right_obj_copy.name = f"{collection_name}_TOP_B_base_RIGHT_{y_dim}x{x_dim}"
+    new_collection.objects.link(left_obj_copy)
+    new_collection.objects.link(right_obj_copy)
+            </code></pre>
+        </div>
+    </div>
+</section>
+
+    <footer id="about">
+        <div class="footer-grid">
+            <div class="bio">
+                <h2 class="section-title" data-i18n="footer.bio.title">The Human Behind the Vertices</h2>
+                <p data-i18n="footer.bio.desc">6 years of freelance grit + 4 years of studio experience. I don't just make models; I build the systems that make them work. From custom Blender Python scripts to Three.js optimization, I ensure the creative vision survives the technical handoff.</p>
+                <br>
+                <h2 id="mail" data-i18n="footer.collab.title">Let's Collaborate!</h2>
+                <p class="email-display">Mail: <a href="mailto:luka.mihajlov.biz@gmail.com">luka.mihajlov.biz@gmail.com</a></p>
+
+            </div>
+            <div class="skills-category">
+                <h3>Technical Toolkit</h3>
+                <ul class="skill-tags">
+                    <li>Blender (General/Python/GeoNodes)</li>
+                    <li>Three.js Pipeline</li>
+                    <li>CSS / Sass</li>
+                    <li>JavaScript Vanilla</li>
+                    <li>Godot (GDScript)</li>
+                    <li>Substance Suite</li>
+                    <li>GLTF Optimization</li>
+                    <li>Photoshop / Krita</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+<div id="tp-modal" class="modal">
+    <div id="threejs-container"></div>
+    <div class="vignette"></div>
+    <button id="close-modal" class="close-btn">&times;</button>
+    <div class="loader" id="modal-loader" data-i18n="modal.loading">Loading Model...</div>
+</div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
